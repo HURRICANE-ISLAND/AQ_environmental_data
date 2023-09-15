@@ -31,9 +31,9 @@ theme_update(plot.title =element_text(hjust=0.5),
 ```{r}
 #Load data from TCM_enviro folder 
 
-first_deployment <- read_csv("TCM_enviro/06092023_Avg_Current.csv")
-second_deployment <- read_csv("TCM_enviro/07272023_Avg_Current.csv")
-third_deployment <- read_csv("TCM_enviro/08292023_Avg_Current.csv")
+first_deployment <- read_csv("06092023_Avg_Current.csv")
+second_deployment <- read_csv("07272023_Avg_Current.csv")
+third_deployment <- read_csv("08292023_Avg_Current.csv")
 ```
 
 ## Combine dataframes into one - Current
@@ -55,9 +55,9 @@ ggplot(TCM_all, aes(x = Date)) +
 ## Data download - Temperature
 
 ```{r}
-first_temp <- read_csv("TCM_enviro/06092023_Temp.csv")
-second_temp <- read_csv("TCM_enviro/07272023_Temp.csv")
-third_temp <- read_csv("TCM_enviro/08292023_Temp.csv")
+first_temp <- read_csv("06092023_Temp.csv")
+second_temp <- read_csv("07272023_Temp.csv")
+third_temp <- read_csv("08292023_Temp.csv")
 ```
 
 ## Combine data frames into one - Temperature

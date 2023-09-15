@@ -136,7 +136,7 @@ TCM_temp <- TCM_temp[-c(619: nrow(TCM_temp)),]
 ## Export datasheet with max/min/avg ##
 
 ```{r}
-write_csv(TCM_SUM1, "TCM_enviro/08292023_Avg_Current.csv")
-write_csv(TCM_temp, "TCM_enviro/08292023_Temp.csv")
+write_csv(TCM_SUM1, "08292023_Avg_Current.csv")
+write_csv(TCM_temp, "08292023_Temp.csv")
 ```
 
