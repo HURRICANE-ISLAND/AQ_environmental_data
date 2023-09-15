@@ -1,0 +1,133 @@
+---
+title: "TCM data processing & visualization: Code for Constructing Large Datashet"
+author: "Lucy Williams"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Load necessary libraries
+library(tidyverse)
+library(ggpubr)
+library(patchwork) 
+library(hrbrthemes) 
+library(ggthemes)
+
+# Set a custom theme for ggplot
+theme_set(theme_tufte())
+theme_update(plot.title =element_text(hjust=0.5),
+             axis.line.x = element_line(color="black", size=1), 
+             element_line(color="black", size=1),
+             text = element_text(size=20),
+             axis.text = element_text(size=15)) 
+```
+
+## TCM Data import
+
+```{r}
+#The TCM data is in several .csv data frames
+
+TCM_dat1 <- read_csv("06092023_Current.csv")
+
+```
+## Data cleaning and transformation
+
+```{r}
+#Setting DateTime
+TCM_dat1$`ISO 8601 Time` <- as.POSIXct(TCM_dat1$`ISO 8601 Time`)
+
+#Plotting all data 
+TCM_dat1 %>% 
+  ggplot(aes(x = `ISO 8601 Time`, y = `Speed (cm/s)`)) + 
+  geom_line(color = "pink") +
+  geom_smooth() +
+  xlab("")
+
+
+#Plotting to see if retrieval/deployment added bad data (odd data points)
+TCM_dat1 %>% 
+  ggplot(aes(x = `ISO 8601 Time`, y = `Speed (cm/s)`)) + 
+  geom_line(color = "pink") +
+  geom_smooth() +
+  xlab("")+
+  xlim(c(as.POSIXct("2023-07-27 00:00:00"), as.POSIXct("2023-07-27 10:50:00")))
+
+#We would not have dove before 9:00 AM on retrieval date, so I am removing data points after that time 
+#9 AM is row 6887
+
+TCM_dat1 <- TCM_dat1[-c(6887:nrow(TCM_dat1)),]
+
+```
+## Max/Min/Avg plots ##
+
+```{r}
+#New dataframe for summary
+TCM_sum1 <- TCM_dat1
+#Select only dates for summarizing
+TCM_sum1$Date <- as.Date(TCM_sum1$`ISO 8601 Time`)
+#Interested in max/min/avg for all days
+TCM_SUM1 <- TCM_sum1 %>%
+  group_by(Date) %>% 
+  summarise(avg_speed = mean(`Speed (cm/s)`),
+            avg_nvelocity = mean(`Velocity-N (cm/s)`),
+            avg_evelocity = mean(`Velocity-E (cm/s)`),
+            max_speed = max(`Speed (cm/s)`),
+            max_nvelocity = max(`Velocity-N (cm/s)`),
+            max_evelocity = max(`Velocity-E (cm/s)`),
+            min_speed = min(`Speed (cm/s)`),
+            min_nvelocity = min(`Velocity-N (cm/s)`),
+            min_evelocity = min(`Velocity-E (cm/s)`))
+            
+            
+#Check dataframe
+view(TCM_SUM1)
+
+#Plot for speed only
+
+ggplot(TCM_SUM1, aes(x = Date,)) + 
+  geom_line(aes(y = avg_speed), color = "blue") +
+  geom_line(aes(y = max_speed), color = "black") +
+  geom_line(aes(y = min_speed), color = "black") +
+  ylab("Speed (cm/s)") + xlab("")
+
+```
+
+##Temperature data import ##
+```{r}
+TCM_temp <- read_csv("06092023_Temperature.csv")
+```
+## Setting date time for temp ##
+
+```{r}
+TCM_temp$`ISO 8601 Time` <- as.POSIXct(TCM_temp$`ISO 8601 Time`)
+```
+
+## Plot to check and delete final data
+
+```{r}
+#Plotting all data
+TCM_temp %>% ggplot(aes(x = `ISO 8601 Time`, y = `Temperature (C)`)) +
+  geom_line()
+
+#Plot final day
+TCM_temp %>% ggplot(aes(x = `ISO 8601 Time`, y = `Temperature (C)`)) +
+  geom_line() + xlim(c(as.POSIXct("2023-07-27 00:00:00"), as.POSIXct("2023-07-27 10:30:00")))
+
+#We will delete data after at 9 AM, row 2296
+
+TCM_temp <- TCM_temp[-c(2296, nrow(TCM_temp)),]
+
+
+
+```
+
+
+## Export datasheet with max/min/avg ##
+
+```{r}
+write_csv(TCM_SUM1, "06092023_Avg_Currnet.csv")
+write_csv(TCM_temp, "06092023_Temp.csv")
+```
+
