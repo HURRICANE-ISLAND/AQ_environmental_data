@@ -31,9 +31,9 @@ theme_update(plot.title =element_text(hjust=0.5),
 ```{r}
 #Load data from TCM_enviro folder 
 
-first_deployment <- read_csv("06092023_Avg_Current.csv")
-second_deployment <- read_csv("07272023_Avg_Current.csv")
-third_deployment <- read_csv("08292023_Avg_Current.csv")
+first_deployment <- read_csv("TCM_tidy/06092023_Avg_Current.csv")
+second_deployment <- read_csv("TCM_tidy/07272023_Avg_Current.csv")
+third_deployment <- read_csv("TCM_tidy/08292023_Avg_Current.csv")
 ```
 
 ## Combine dataframes into one - Current
@@ -50,14 +50,19 @@ ggplot(TCM_all, aes(x = Date)) +
   geom_line(aes(y = max_speed), color = "black") +
   geom_line(aes(y = min_speed), color = "black") +
   ylab("Speed (cm/s)") + xlab("")
+
+ggplot(TCM_all, aes(x = Date)) +
+  geom_line(aes(y = avg_nvelocity), color = "red") +
+  geom_line(aes(y = avg_evelocity), color = "blue") +
+  ylab("Speed (cm/s)") + xlab("")
 ```
 
 ## Data download - Temperature
 
 ```{r}
-first_temp <- read_csv("06092023_Temp.csv")
-second_temp <- read_csv("07272023_Temp.csv")
-third_temp <- read_csv("08292023_Temp.csv")
+first_temp <- read_csv("TCM_tidy/06092023_Temp.csv")
+second_temp <- read_csv("TCM_tidy/07272023_Temp.csv")
+third_temp <- read_csv("TCM_tidy/08292023_Temp.csv")
 ```
 
 ## Combine data frames into one - Temperature
