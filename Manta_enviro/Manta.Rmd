@@ -1,0 +1,147 @@
+---
+title: "Manta_vis"
+author: "Lucy Williams"
+date: "`r Sys.Date()`"
+output: html_document
+---
+## Libraries 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#Load necessary libraries
+library(tidyverse)
+library(ggpubr)
+library(patchwork) 
+library(hrbrthemes) 
+library(ggthemes)
+
+#Set a custom theme for ggplot
+theme_set(theme_tufte())
+theme_update(plot.title =element_text(hjust=0.5),
+             axis.line.x = element_line(color="black", size=1), 
+             element_line(color="black", size=1),
+             text = element_text(size=20),
+             axis.text = element_text(size=15)) 
+
+
+```
+
+
+## Data import -environmental data 
+
+```{r}
+#Load data from Manta_enviro folder 
+
+parameters <- read_csv("20192022_manta.csv")
+
+```
+
+## Data cleaning and transformation 
+
+```{r}
+#Renaming column
+
+parameters <- parameters %>%
+  rename(
+    "Chlorophyll (RFU)" = `Chlorophyll RFU...11`,
+  )
+
+#defining variables 
+parameters <- parameters %>%
+  mutate(
+    #set date as Date
+    Date = as.Date(Date),
+    #set factors
+    `Gear Type` = as.factor(`Gear Type`),
+    #pH as numeric
+    pH = as.numeric(pH)
+  )
+
+#Remove Cage data
+parameters <- parameters %>%
+  filter(!`Gear Type` == "Cage",
+         !Year == 2019)
+
+#Select Hurricane Island site data only
+
+HI_par <- parameters %>% filter(Site == "HI")
+```
+
+## Plotting each variable 
+
+```{r}
+#Define variables to plot
+
+variables_to_plot <- c("Temp_Net", "Chlorophyll (RFU)", "Cond µS/cm","ODO % sat", "TDS mg/L", "pH")
+#Years of interest 
+
+#Create list to store all parameter plots
+
+#For loop for plots 
+  for(var in variables_to_plot) {
+  
+  plot <- 
+    ggplot(subset_data, aes(x = Date, y = .data[[var]])) +
+    geom_point()
+  
+  variables_plot_list[[var]] <- list(plot) 
+    
+  }
+
+
+variables_plot_list
+```
+
+## 2020
+
+```{r}
+#Define variables to plot
+
+variables_to_plot <- c("Temp_Net", "Chlorophyll (RFU)", "Cond µS/cm","ODO % sat", "TDS mg/L", "pH")
+#Years of interest 
+
+#Create list to store all parameter plots
+
+#For loop for plots 
+  for(var in variables_to_plot) {
+    
+  subset_data <- HI_par %>% filter(Year == "2020")
+  
+  plot <- 
+    ggplot(subset_data, aes(x = Date, y = .data[[var]])) +
+    geom_point()
+  
+  variables_plot_list[[var]] <- list(plot) 
+    
+  }
+
+
+variables_plot_list
+```
+
+## 2021
+
+```{r}
+#Define variables to plot
+
+variables_to_plot <- c("Temp_Net", "Chlorophyll (RFU)", "Cond µS/cm","ODO % sat", "TDS mg/L", "pH")
+#Years of interest 
+
+#Create list to store all parameter plots
+
+#For loop for plots 
+  for(var in variables_to_plot) {
+    
+  subset_data <- HI_par %>% filter(Year == "2021")
+  
+  plot <- 
+    ggplot(subset_data, aes(x = Date, y = .data[[var]])) +
+    geom_point()
+  
+  variables_plot_list[[var]] <- list(plot) 
+    
+  }
+
+
+variables_plot_list
+```
