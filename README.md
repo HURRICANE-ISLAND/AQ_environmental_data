@@ -8,7 +8,7 @@
 
 TCM_raw - all raw data from TCM device
 
-TCM_enviro - cleaned .csv for average/maximum/minimum daily current data and 30-minute-interval temperature data for corresponding data collection dates
+TCM_tidy - cleaned .csv for average/maximum/minimum daily current data and 30-minute-interval temperature data for corresponding data collection dates
 
 TCM.Rmd - R markdown file of code used for TCM data cleaning and organization
 TCM_vis.Rmd - R markdown file of code combining data sheets and simple visualization, to be used as more data is collected
