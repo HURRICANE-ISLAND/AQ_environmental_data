@@ -20,3 +20,11 @@ old_plot - R file code used to make early figures, not annotated but might be us
 20192022.csv - csv file with all HI, NH, and ST farm data collected using Eureka Manta 35+ water probe. Variables include: date, site, gear type, average GSI, average temperature, GSI SE, GSI SD, median GSI, type (wild/aquaculture),  chlorophyll (RFU), conductivity, dissolved oxygen, pressure, salinity, turbidity, pH.
 
 Manta.Rmd - R markdown file of 20192022.csv data analysis. Code is pulled from old_plot. 
+
+**HOBO Logger Temperature Data(HOBO_enviro):**, 
+
+HOBO_YYYY.csv - temperature data files from HOBO loggers from 2019, 2020, 2021, 2022. Variables include: Date/Time, Site (Hurricane Island (HI)/North Haven (NH)/ Stonington (ST)), Temperature (degrees Celsius and degrees Farenheit), Number (refering to number of deployment). 
+
+hobo.R - code for HOBO logger data analysis from early Spring 2023, not annotated. 
+
+old_files - code used in the past for exploratory analysis, not annotated. temp.csv is GSI data and does not include temperature of any kind. 
