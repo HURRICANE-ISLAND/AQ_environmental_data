@@ -34,12 +34,13 @@ theme_update(plot.title =element_text(hjust=0.5),
 first_deployment <- read_csv("TCM_tidy/06092023_Avg_Current.csv")
 second_deployment <- read_csv("TCM_tidy/07272023_Avg_Current.csv")
 third_deployment <- read_csv("TCM_tidy/08292023_Avg_Current.csv")
+fourth_deployment <- read_csv("TCM_tidy/09112023_Avg_Current.csv")
 ```
 
 ## Combine dataframes into one - Current
 
 ```{r}
-TCM_all <- rbind(first_deployment, second_deployment, third_deployment)
+TCM_all <- rbind(first_deployment, second_deployment, third_deployment, fourth_deployment)
 ```
 
 ## Plot - Current
@@ -63,12 +64,13 @@ ggplot(TCM_all, aes(x = Date)) +
 first_temp <- read_csv("TCM_tidy/06092023_Temp.csv")
 second_temp <- read_csv("TCM_tidy/07272023_Temp.csv")
 third_temp <- read_csv("TCM_tidy/08292023_Temp.csv")
+fourth_temp <- read_csv("TCM_tidy/09112023_Temp.csv")
 ```
 
 ## Combine data frames into one - Temperature
 
 ```{r}
-Temp_all <- rbind(first_temp, second_temp, third_temp)
+Temp_all <- rbind(first_temp, second_temp, third_temp,fourth_temp)
 ```
 
 ## Plot - Temperature

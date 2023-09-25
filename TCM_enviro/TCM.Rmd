@@ -29,7 +29,7 @@ theme_update(plot.title =element_text(hjust=0.5),
 ```{r}
 #The TCM data is in several .csv data frames
 
-TCM_dat1 <- read_csv("TCM_raw/08292023_Current.csv")
+TCM_dat1 <- read_csv("TCM_raw/09112023_Current.csv")
 
 ```
 ## Data cleaning and transformation
@@ -52,13 +52,13 @@ TCM_dat1 %>%
   geom_line(color = "pink") +
   geom_smooth() +
   xlab("")+
-  xlim(c(as.POSIXct("2023-09-11 00:00:00"), as.POSIXct("2023-09-11 10:50:00")))
+  xlim(c(as.POSIXct("2023-09-25 00:00:00"), as.POSIXct("2023-09-25 10:50:00")))
 
 #We would not have dove before 9:00 AM on retrieval date, so I am removing data points after that time 
 #9 AM row number 
 
 
-TCM_dat1 <- TCM_dat1[-c(1855:nrow(TCM_dat1)),]
+TCM_dat1 <- TCM_dat1[-c(1988:nrow(TCM_dat1)),]
 
 #Delete first two rows if diving added bad date
 #TCM_dat1 <- TCM_dat1[-c(1,2),] 
@@ -101,7 +101,7 @@ ggplot(TCM_SUM1, aes(x = Date,)) +
 
 ##Temperature data import ##
 ```{r}
-TCM_temp <- read_csv("TCM_raw/08292023_Temperature.csv")
+TCM_temp <- read_csv("TCM_raw/09112023_Temperature.csv")
 ```
 ## Setting date time for temp ##
 
@@ -118,12 +118,12 @@ TCM_temp %>% ggplot(aes(x = `ISO 8601 Time`, y = `Temperature (C)`)) +
 
 #Plot final day
 TCM_temp %>% ggplot(aes(x = `ISO 8601 Time`, y = `Temperature (C)`)) +
-  geom_line() + xlim(c(as.POSIXct("2023-09-11 00:00:00"), as.POSIXct("2023-09-11 10:30:00")))
+  geom_line() + xlim(c(as.POSIXct("2023-09-25 00:00:00"), as.POSIXct("2023-09-25 10:30:00")))
 
 #We will delete data after at 9 AM, row number
 #Find row number
 view(TCM_temp)
-TCM_temp <- TCM_temp[-c(619: nrow(TCM_temp)),]
+TCM_temp <- TCM_temp[-c(664: nrow(TCM_temp)),]
 
 #Delete first two data points
 #TCM_temp <- TCM_temp[-c(1,2),]
@@ -136,7 +136,7 @@ TCM_temp <- TCM_temp[-c(619: nrow(TCM_temp)),]
 ## Export datasheet with max/min/avg ##
 
 ```{r}
-write_csv(TCM_SUM1, "08292023_Avg_Current.csv")
-write_csv(TCM_temp, "08292023_Temp.csv")
+write_csv(TCM_SUM1, "TCM_tidy/09112023_Avg_Current.csv")
+write_csv(TCM_temp, "TCM_tidy/09112023_Temp.csv")
 ```
 
